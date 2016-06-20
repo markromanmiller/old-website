@@ -1,3 +1,3 @@
 #My Website
 
-In progress. The style is Leo Babuta's uncopyrighted style from zenhabits.net.
+There's not really much to say. Find the website at (markromanmiller.me).

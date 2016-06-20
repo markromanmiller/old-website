@@ -1,0 +1,221 @@
+/* 
+Stylesheet
+
+Named after Parker because he's the stylish one.
+No rights reserved. Feel free to use it for whatever!
+
+Color scheme
+------
+white: #FFFFFF;
+blue: #0098DB;
+grey: #4D4F53;
+light grey: #CDCFD0;
+squash orange: #EAAB00;
+Stanford red: #8C1515;
+*/
+
+/*
+html5doctor.com Reset Stylesheet
+v1.6.1
+Last Updated: 2010-09-17
+Author: Richard Clark - http://richclarkdesign.com 
+Twitter: @rich_clark
+*/
+
+html, body, div, span, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+abbr, address, cite, code,
+del, dfn, em, img, ins, kbd, q, samp,
+small, strong, sub, sup, var,
+b, i,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section, summary,
+time, mark, audio, video {
+    margin:0;
+    padding:0;
+    border:0;
+    outline:0;
+    font-size:100%;
+    vertical-align:baseline;
+    background:transparent;
+}
+
+body {
+    line-height:1;
+}
+
+article,aside,details,figcaption,figure,
+footer,header,hgroup,menu,nav,section { 
+    display:block;
+}
+
+nav ul {
+    list-style:none;
+}
+
+blockquote, q {
+    quotes:none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content:'';
+    content:none;
+}
+
+a {
+    margin:0;
+    padding:0;
+    font-size:100%;
+    vertical-align:baseline;
+    background:transparent;
+}
+
+/* change colours to suit your needs */
+ins {
+    background-color:#ff9;
+    color:#000;
+    text-decoration:none;
+}
+
+/* change colours to suit your needs */
+mark {
+    background-color:#ff9;
+    color:#000; 
+    font-style:italic;
+    font-weight:bold;
+}
+
+del {
+    text-decoration: line-through;
+}
+
+abbr[title], dfn[title] {
+    border-bottom:1px dotted;
+    cursor:help;
+}
+
+table {
+    border-collapse:collapse;
+    border-spacing:0;
+}
+
+/* change border colour to suit your needs */
+hr {
+    display:block;
+    height:1px;
+    border:0;   
+    border-top:1px solid #cccccc;
+    margin:1em 0;
+    padding:0;
+}
+
+input, select {
+    vertical-align:middle;
+}
+
+/* End reset, begin my own styling */
+
+@media all {
+    /* separate the left and right sides */
+    div.introduction, div.section {
+        margin: 2.5%;
+    }
+    div.introduction {
+      float: left;
+      width: 20%;  
+    }
+    div.section {
+      float: right;
+      width: 70%;
+    }
+
+    div.profile-picture {
+        text-align: center;
+    }
+
+    /* by default contact-left should be seen but bottom is hidden */
+    div.contact-bottom {
+        display: none;
+    }
+
+    table.links-package {
+        border-collapse: separate;
+        border-spacing: 10px;
+    }
+
+    td.link-square {
+        background-color: #CDCFD0;
+        text-align: center;
+        width: 29%;
+        border-style: outset;
+        border-width: 3px;
+        vertical-align: middle;
+    }
+
+    td.link-square h4, td.link-square h6 {
+        color: #000000;
+    }
+    td.link-square a {
+        text-decoration: none;
+    }
+
+    h1, h2, h3, h4, h5, h6, p {
+        font-family: 'Average', serif;
+        line-height: 150%;
+    }
+
+    p {
+        font-size: 20px;
+        color: #000000;
+        margin: 10px;
+        
+    }
+    h1 {
+        font-family: 'Teko', sans-serif;
+        font-size: 50px;
+        color: #8C1515;
+    }
+
+    h4 {
+        font-size: 26px;
+    }
+
+    h6 {
+        font-size: 16px;
+        font-weight: normal;
+    }
+
+    p.contact {
+        font-size: 16px;
+    }
+
+    img.profile-picture {
+        max-width: 100%;
+    }
+
+
+}
+
+@media all and (max-width: 800px) {
+    div.introduction, div.section {
+        float: none;
+        width: auto;
+    }
+
+    /* when the width becomes too small, 
+    "move" the contact information to the bottom */
+    div.contact-left {
+        display: none;
+    }
+    div.contact-bottom {
+        display: block;
+    }
+
+    img.profile-picture {
+        width: 50%;
+    }
+}
