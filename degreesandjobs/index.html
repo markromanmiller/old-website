@@ -1,0 +1,158 @@
+<html>
+<head>
+<link href="https://fonts.googleapis.com/css?family=Teko:700|Average" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="DataTables/datatables.min.css"/>
+<link rel="stylesheet" type="text/css" href="styling.css">
+<link rel="stylesheet" type="text/css" href="../parkersmith.css">
+ 
+<script type="text/javascript" src="DataTables/datatables.min.js"></script>
+</head>
+<body>
+
+<div id="mainbox">
+<h1>Jobs and Degrees</h1>
+
+<p>Inspired by the questions raised in <a href="https://www.amazon.com/Shop-Class-Soulcraft-Inquiry-Value/dp/0143117467"><i>Shop Class as Soulcraft</i></a>, I'm looking to explore the current job market in terms of salary and education levels. A theme discussed at length in <i>Shop Class as Soulcraft</i> is the United States' overemphasis on college degrees at the expense of the trades. </p>
+
+<p>How does one address this claim? As I began to think about this question, I realized I could easily pull conclusions from the data either for or against Crawford's claim, but I feel the most accurate answer is a combination of psychology and economics. You can find some of the interesting slices and stories, the sources for the data, as well as my reasoning for this tool, on my blog post [to be linked]. I encourage you to read it to make sense of the data I am displaying.</p>
+
+<p>You use this tool by two steps. First, you can enter a specified salary. The percentage column then displays the percentage of people in the US with that degree or in that occupation that make over the specified amount per year. Then, you can filter out low-percentile results by specifying a minimum percentile.</p>
+
+<p>There are two other options. One specifies the measure used for education level. There are three that can be selected: the recommended level in the <a href="http://www.bls.gov/ooh/">Occupational Outlook Handbook<a>, which is shown by default. There is also the most common education level for an occupation, and the most common education level relative to the entire US population. The second option filters degrees, occupations, or both.</p>
+
+<table id="example" class="display" cellspacing="0" width="100%">
+</table>
+</div>
+
+<script>
+function renderPayGrade (payGrade) {
+	var target = $('#salary').val();
+	var getPercentile = function (element) {
+
+		// the current value is slightly more than the desired value
+		return (element >= target);
+	}
+	var percentile = payGrade.findIndex(getPercentile)
+	if (percentile === -1) {
+		return "<1%";
+	} else if (percentile === 0) {
+		return ">99%";
+	} else {
+		return (100 - percentile) + "%";
+	};
+};
+
+$.fn.dataTable.ext.search.push(
+    function( settings, searchData, dataIndex, originalData, searchCounter) {
+    	// first check on whether degree or employment or both
+    	var fixme = $("#fixme").val();
+    	if (fixme !== "" && fixme !== originalData["kind"]) {
+    		return false;
+    	}
+    	// now check the percentiles
+    	var percentile = $("#percentile").val();
+    	var salaryMeasure = $("#salary").val();
+
+    	if (!isNaN(percentile) && !isNaN(salaryMeasure) 
+    		&& parseFloat(originalData["pay"][100 - percentile]) < +salaryMeasure) {
+    		return false;
+    	}
+    	return true;
+    }
+);
+
+$(document).ready(function() {
+    var table = $('#example').DataTable( {
+        "ajax": 'incomes.json',
+        "bPaginate": false,
+        "columns": [
+        	{ 
+        		name: 'pay',
+            	"data": "pay", 
+        		render: renderPayGrade,
+        		"searchable": false
+        	}, {
+        		"data": "name" 
+        	}, { 
+        		name: "kind",
+            	"data": "kind", 
+            	"visible": false,
+            	"searchable": false
+            }, { 
+            	name: "rel",
+            	"data": "rel" , 
+                render: {
+                    _: 'display',
+                    sort: 'sort'
+                },
+                "searchable": false,
+            }, { 
+            	name: "cel",
+            	"data": "cel" , 
+                render: {
+                    _: 'display',
+                    sort: 'sort'
+                },
+                "searchable": false,
+                "visible": false
+            }, { 
+            	name: "pel",
+            	"data": "pel" , 
+                render: {
+                    _: 'display',
+                    sort: 'sort'
+                },
+                "searchable": false,
+                "visible": false
+            },
+        ], 
+        "dom": '<"left-toolbar">frt',
+        "order": [[ 1, "asc" ]]
+    } ); // example datatable
+
+	onSalaryMeasureChange = function (val) {
+		table.ajax.reload();
+	};
+
+	onEducationMeasurementChange = function (val) {
+		function hideEducationColumn (element) {
+			table.column(element + ":name").visible(false);
+		}
+		["rel", "pel", "cel"].forEach(hideEducationColumn);
+		table.column(val + ":name").visible(true).draw();
+	};
+	onfixmeChange = function (val) {
+		table.ajax.reload();
+	};
+
+	onPercentileLimitChange = function (val) {
+		table.ajax.reload();
+	}
+
+    var leftHTMLString = 
+    	'<span class="toolbar-item"><input id="percentile" placeholder="Min" ' + 
+            'onchange="onPercentileLimitChange(this.value)"></input>%</span>' + 
+    	'<span class="toolbar-item"><input id="salary" placeholder="Salary" ' + 
+            'onchange="onSalaryMeasureChange(this.value)"></input></span>' +
+    	'<span class="toolbar-item">' +
+        '<select onchange="onEducationMeasurementChange(this.value)">' +
+        	'<option value="rel">Recommended</option>' +
+            '<option value="pel">Proportional</option>' +
+        	'<option value="cel">Common</option>' +
+    	'</select></span>' +
+    	'<span class="toolbar-item">' +
+    	'<select id="fixme" onchange="onfixmeChange(this.value)">' +
+    		'<option value="">--</option>' + // blank value matches everything
+    		'<option value="degree">Degrees</option>' +
+    		'<option value="employment">Occupations</option>' +
+    	'</select></span>';
+ 
+    $("div.left-toolbar").html(leftHTMLString);
+} ); //ready function
+</script>
+
+</body>
+
+
+
+</html>

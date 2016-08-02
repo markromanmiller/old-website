@@ -1,0 +1,25 @@
+.right-toolbar {
+    float: right;
+}
+
+.left-toolbar {
+    float: left;
+}
+
+.toolbar-item {
+	margin: 0 10px;
+	display: inline;
+}
+
+#salary {
+	width: 100px;
+}
+
+#percentile {
+	width: 50px;
+}
+
+#mainbox {
+	width: 800px;
+	margin: 0 auto;
+}
